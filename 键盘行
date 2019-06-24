@@ -1,0 +1,29 @@
+题目描述：
+  给定一个单词列表，只返回可以使用在键盘同一行的字母打印出来的单词。
+  示例：
+    输入: ["Hello", "Alaska", "Dad", "Peace"]
+    输出: ["Alaska", "Dad"]
+解题思路：
+  /**
+    利用java ArrayList中 containsAll方法
+    注意：记得将输入数组中的每一个字符串都转换成小写字母，减少对比次数
+   */
+   public String[] findWords(String[] words) {
+        List<Character> one = Arrays.asList('q','w','e','r','t','y','u','i','o','p');
+        List<Character> two = Arrays.asList('a','s','d','f','g','h','j','k','l');
+        List<Character> three = Arrays.asList('z','x','c','v','b','n','m');
+        List<String> result =new ArrayList<String>();
+        for (int i = 0; i < words.length; i++) {
+          List<Character> compareList = new ArrayList<Character>();
+          //转换成小写
+          String str = words[i].toLowerCase();
+          char[] cs = str.toCharArray();
+          for (int j = 0; j < cs.length; j++) {
+            compareList.add(cs[j]);
+          }
+          if(one.containsAll(compareList) || two.containsAll(compareList) || three.containsAll(compareList)){
+            result.add(words[i]);
+          }
+        }
+        return result.toArray(new String[result.size()]);
+    }
