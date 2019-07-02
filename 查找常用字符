@@ -1,0 +1,58 @@
+题目描述：
+  给定仅有小写字母组成的字符串数组 A，返回列表中的每个字符串中都显示的全部字符（包括重复字符）组成的列表。例如，如果一个字符在每个字符串中出现 3 次，
+  但不是 4 次，则需要在最终答案中包含该字符 3 次。
+  你可以按任意顺序返回答案。
+  示例 1：
+    输入：["bella","label","roller"]
+    输出：["e","l","l"]
+  示例 2：
+    输入：["cool","lock","cook"]
+    输出：["c","o"]
+解题思路：
+  我们知道第一个字符串的字符数量列表为：
+    b 1
+    e 1
+    l 2
+    a 1
+  第二个字符串的字符数量列表为：
+    l 2
+    a 1
+    b 1
+    e 1
+  第三个字符串的字符数量列表为：
+    r 2
+    o 1
+    l 2
+    e 1
+  这三个求交集后的结果为：
+    e 1
+    l 2
+  结果一目了然。
+  分析到这里其实也没啥好说的了，我们可以用hashmap来表示**字符-数量**之间的关系，但是考虑到效率的问题，我们可以使用数组来对代码进行优化。
+  用数组res的下标i表示是哪个字符，用res[i]表示该字符出现的次数。代码如下：
+      class Solution {
+        public List<String> commonChars(String[] A) {
+            List<String> result = new ArrayList<String>();
+        int[] ans = new int[26];
+        for (char c : A[0].toCharArray()) {
+          ans[c-'a']++;
+        }
+        for (int i = 1; i < A.length; i++) {
+          int[] temp = new int[26];
+          for (char c : A[i].toCharArray()) {
+            temp[c-'a']++;
+          }
+          for (int j = 0; j < 26; j++) {
+            ans[j] =Math.min(ans[j], temp[j]);
+          }
+        }
+        for (int i = 0; i < ans.length; i++) {
+          if(ans[i] > 0){
+            for (int j = 0; j < ans[i]; j++) {
+              result.add(String.valueOf((char)(i +'a')));
+            }
+          }
+        }
+        return result;
+        }
+    }
