@@ -1,0 +1,49 @@
+题目描述：
+  给定一个字符串 S 和一个字符 C。返回一个代表字符串 S 中每个字符到字符串 S 中的字符 C 的最短距离的数组。
+  示例 1:
+    输入: S = "loveleetcode", C = 'e'
+    输出: [3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0]
+解题思路：
+  1.循环字符串，记录每次出现C是，当前字符距离C的距离，存入list，非降序排序后，去第一个就是最近距离。
+  代码：
+    class Solution {
+          public int[] shortestToChar(String S, char C) {
+             int[] reslut = new int[S.length()];
+          char[] sc = S.toCharArray();
+          for (int i = 0; i < sc.length; i++) {
+            List<Integer> list = new ArrayList<Integer>();
+            for (int j = 0; j < sc.length; j++) {
+              if(sc[j] == C){
+                list.add(Math.abs(j-i));
+              }
+            }
+            Collections.sort(list);
+            reslut[i] = list.get(0);
+          }
+          return reslut;
+          }
+      }
+   2.遍历一次数组，遍历的同时判断当前下标是否超过右指针如果超过左右指针同时前移一个，然后结果取最小距离；
+   代码：
+      public int[] shortestToChar(String s, char c) {
+          int left = -1;
+          int right = -1;
+          int[] result = new int[s.length()];
+          for (int i = 0; i < result.length; i++) {
+              if(i>right){
+                  for (int j=i;j<result.length;j++){
+                      if(s.charAt(j)==c){
+                          left = right;
+                          right = j;
+                          break;
+                      }
+                  }
+              }
+              if(left==-1){
+                  result[i] = Math.abs(right-i);
+              }else{
+                  result[i] = Math.abs(Integer.min(right-i,i-left));
+              }
+          }
+          return result;
+      }
