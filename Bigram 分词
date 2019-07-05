@@ -1,0 +1,27 @@
+题目描述：
+  给出第一个词 first 和第二个词 second，考虑在某些文本 text 中可能以 "first second third" 形式出现的情况，
+  其中 second 紧随 first 出现，third 紧随 second 出现。
+  对于每种这样的情况，将第三个词 "third" 添加到答案中，并返回答案。
+  示例 1：
+    输入：text = "alice is a good girl she is a good student", first = "a", second = "good"
+    输出：["girl","student"]
+  示例 2：
+    输入：text = "we will we will rock you", first = "we", second = "will"
+    输出：["we","rock"]
+解题思路：
+  将文本text转成数组，循环数组，判断当前元素是否与指定second元素相同并且判断前一位元素是否与指定first元素相同，如果同时满足，则下一位元素就是目标元素
+  代码：
+    class Solution {
+      public String[] findOcurrences(String text, String first, String second) {
+          String[] texts = text.split(" ");
+      List<String> list = new ArrayList<String>();
+      for (int i = 0; i < texts.length -1; i++) {
+        if(texts[i].equals(second) && i != 0){
+          if(texts[i-1].equals(first)){
+            list.add(texts[i+1]);
+          }
+        }
+      }
+      return list.toArray(new String[list.size()]);
+      }
+  }
